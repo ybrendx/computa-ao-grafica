@@ -34,8 +34,43 @@ while True:
             sys.exit()
 
             #Movimenta raquetes
-            teclas = pygame.key.get_pressed()
-            if teclas[pygame.K_w]:
-                raquete_esquerda_y -= velocidade_raquete
-                if teclas[pygame.k_s]:
+    teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_w]:
+        raquete_esquerda_y -= velocidade_raquete
+    if teclas[pygame.k_s]:
+        raquete_esquerda_y += velocidade_raquete
+    if teclas[pygame.K_UP]:
+        raquete_direita_y -= velocidade_raquete
+    if teclas[pygame.K_DOWN]:
+        raquete_direita_y += velocidade_raquete
+
+    # Movimenta a bola
+    bola_x += bola_dx
+    bola_y += bola_dy
+
+    # Verifica colisões com o topo e o fundo
+    if bola_y <= 0 or bola_y >= altura - 10:
+        bola_dy = -bola_dy
+
+    #Verifica colisão com as raquetes
+    if bola_x <= 20 and raquete_esquerda_y < bola_y < raquete_esquerda_y + raquete_altura:
+        bola_dx = -bola_dx
+    if bola_x >= largura - 20 and raquete_direita_y < bola_y < raquete_direita_y + raquete_altura:
+        bola_dx = -bola_dx
+
+    #Reinicia a boola se ela sair da tela
+    if bola_x < 0 or bola_x > largura:
+        bola_x, bola_y = largura // 2, altura // 2
+
+    #Desenha os elementos
+    tela.fill(preto)
+    pygame.draw.rect(tela, azul, (10, raquete_esquerda_y, raquete_largura, raquete_altura)) #Raquete esquerda azul
+    pygame.draw.rect(tela, verde, (largura - 20,raquete_direita_y, raquete_largura. raquete_altura)) #Raquete direita verde
+    pygame.draw.rect(tela, amarelo, (bola_x, bola_y, 10, 10)) #a bola amarela
+
+    pygame.display.flip()
+
+    pygame.time.Clock().tick(60)
+
+
                     
